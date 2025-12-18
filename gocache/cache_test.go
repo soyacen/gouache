@@ -1,4 +1,4 @@
-package gocache
+package gc
 
 import (
 	"context"

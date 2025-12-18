@@ -1,9 +1,9 @@
-// Package gocache provides an implementation of the gouache.Cache interface
+// Package gc provides an implementation of the gouache.Cache interface
 // using patrickmn/go-cache as the underlying storage mechanism.
 //
 // This package enables in-memory caching with expiration capabilities by leveraging
 // go-cache's thread-safe operations and automatic expiration handling.
-package gocache
+package gc
 
 import (
 	"context"

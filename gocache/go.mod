@@ -1,4 +1,4 @@
-module github.com/go-leo/gouache/gocache
+module github.com/go-leo/gouache/gc
 
 go 1.20
 

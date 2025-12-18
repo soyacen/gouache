@@ -1,19 +1,20 @@
 # Gouache - Go 缓存接口和实现
 
-Gouache 是一个 Go 语言缓存库，实现了一致性缓存方案：延迟双删模式，提供统一的缓存接口和多种实现方式，底层实现包括内存缓存（sync.Map）、Redis、BigCache、LRU 和 Go-Cache 等。
+Gouache 是一个 Go 语言缓存库，实现了一致性缓存方案：延迟双删模式，提供统一的缓存接口和多种实现方式，底层实现包括内存缓存（sync.Map）、Redis、BigCache、LRU、Go-Cache 和 FreeCache 等。
 
 ## 特性
 
 - **统一接口**: 定义了标准的 ***Cache*** 和 ***Database*** 接口
 - **多种实现**: 提供多种缓存实现，包括:
   - 延迟双删缓存 (`ddd`)
-  - 基于内存的简单实现 (`sample`)
-  - 带过期时间的内存缓存 (`gocache`)
-  - LRU 缓存 (`lru`)
-  - Redis 分布式缓存 (`redis`)
-  - BigCache 高性能缓存 (`bigcache`)
   - 分片缓存 (`sharded`)
   - 防击穿缓存 (`sf`)
+  - 基于内存的简单实现 (`sample`)
+  - 带过期时间的内存缓存 (`gc`)
+  - Redis 分布式缓存 (`redis`)
+  - LRU 缓存 (`lru`)
+  - BigCache 高性能缓存 (`bc`)
+  - FreeCache 高性能缓存 (`fc`)
 - **可扩展**: 易于添加新的缓存实现
 - **线程安全**: 所有实现都支持并发访问
 
@@ -121,6 +122,22 @@ cache := &lru.Cache{
 err := cache.Set(context.Background(), "key", "value")
 ```
 
+### FreeCache 实现
+
+```go
+import (
+    "github.com/go-leo/gouache/fc"
+    "github.com/coocood/freecache"
+)
+
+freeCache := fc.NewCache(100 * 1024 * 1024) // 100MB
+cache := &fc.Cache{
+    Cache: freeCache,
+}
+
+err := cache.Set(context.Background(), "key", []byte("value"))
+```
+
 ### 组合使用 - 防击穿缓存
 
 ```go
@@ -136,14 +153,16 @@ cache := &sf.Cache{
 
 | 实现 | 描述 | 特点 |
 |------|------|------|
-| `sample` | 基于 `sync.Map` 的简单内存缓存 | 轻量、无依赖、线程安全 |
-| `gocache` | 基于 `patrickmn/go-cache` 的内存缓存 | 支持过期时间、LRU 清理 |
-| `lru` | 基于 `hashicorp/golang-lru` 的 LRU 缓存 | 自动淘汰最久未使用项 |
-| `bigcache` | 基于 `allegro/bigcache` 的高性能缓存 | 高并发、低内存占用 |
-| `redis` | Redis 分布式缓存实现 | 支持分布式、持久化 |
+| `ddd` | 延迟双删缓存 | 保证缓存与数据库一致性 |
 | `sharded` | 分片缓存 | 减少锁竞争，提高并发性能 |
 | `sf` | 防击穿缓存 | 使用 singleflight 防止缓存击穿 |
-| `ddd` | 延迟双删缓存 | 保证缓存与数据库一致性 |
+| `sample` | 基于 `sync.Map` 的简单内存缓存 | 轻量、无依赖、线程安全 |
+| `gc` | 基于 `patrickmn/go-cache` 的内存缓存 | 支持过期时间、LRU 清理 |
+| `lru` | 基于 `hashicorp/golang-lru` 的 LRU 缓存 | 自动淘汰最久未使用项 |
+| `bc` | 基于 `allegro/bigcache` 的高性能缓存 | 高并发、低内存占用 |
+| `fc` | 基于 `coocood/freecache` 的高性能缓存 | 零GC、高并发 |
+| `redis` | Redis 分布式缓存实现 | 支持分布式、持久化 |
+
 
 ## 错误处理
 

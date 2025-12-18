@@ -1,9 +1,9 @@
-// Package bigcache provides an implementation of the gouache.Cache interface
+// Package bc provides an implementation of the gouache.Cache interface
 // using allegro/bigcache as the underlying storage mechanism.
 //
 // This package enables high-performance caching capabilities by leveraging
 // BigCache's efficient memory management and concurrent access patterns.
-package bigcache
+package bc
 
 import (
 	"context"

@@ -1,4 +1,4 @@
-module github.com/go-leo/gouache/bigcache
+module github.com/go-leo/gouache/bc
 
 go 1.20
 
