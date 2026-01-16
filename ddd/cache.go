@@ -13,7 +13,7 @@ import (
 	"log/slog"
 	"time"
 
-	"github.com/go-leo/gouache"
+	"github.com/soyacen/gouache"
 )
 
 // Ensure that cache implements the gouache.Cache interface at compile time.

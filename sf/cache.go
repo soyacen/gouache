@@ -10,7 +10,7 @@ package sf
 import (
 	"context"
 
-	"github.com/go-leo/gouache"
+	"github.com/soyacen/gouache"
 	"golang.org/x/sync/singleflight"
 )
 

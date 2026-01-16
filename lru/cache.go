@@ -8,7 +8,7 @@ package lru
 import (
 	"context"
 
-	"github.com/go-leo/gouache"
+	"github.com/soyacen/gouache"
 	lrucache "github.com/hashicorp/golang-lru"
 )
 

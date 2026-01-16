@@ -6,7 +6,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/go-leo/gouache"
+	"github.com/soyacen/gouache"
 	"github.com/patrickmn/go-cache"
 )
 

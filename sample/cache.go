@@ -8,7 +8,7 @@ import (
 	"context"
 	"sync"
 
-	"github.com/go-leo/gouache"
+	"github.com/soyacen/gouache"
 )
 
 // Ensure that Cache implements the gouache.Cache interface at compile time.

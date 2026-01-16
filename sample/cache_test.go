@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/go-leo/gouache"
+	"github.com/soyacen/gouache"
 )
 
 // TestCache_Get tests the Get method of the Cache implementation.

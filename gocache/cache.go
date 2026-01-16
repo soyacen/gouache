@@ -9,7 +9,7 @@ import (
 	"context"
 	"time"
 
-	"github.com/go-leo/gouache"
+	"github.com/soyacen/gouache"
 	gocache "github.com/patrickmn/go-cache"
 )
 

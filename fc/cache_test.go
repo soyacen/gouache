@@ -8,7 +8,7 @@ import (
 	"time"
 
 	"github.com/coocood/freecache"
-	"github.com/go-leo/gouache"
+	"github.com/soyacen/gouache"
 )
 
 // TestStruct 是用于测试的自定义结构体

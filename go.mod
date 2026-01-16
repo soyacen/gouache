@@ -1,4 +1,4 @@
-module github.com/go-leo/gouache
+module github.com/soyacen/gouache
 
 go 1.20
 

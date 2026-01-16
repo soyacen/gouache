@@ -10,7 +10,7 @@ import (
 	"errors"
 	"time"
 
-	"github.com/go-leo/gouache"
+	"github.com/soyacen/gouache"
 	"github.com/redis/go-redis/v9"
 )
 

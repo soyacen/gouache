@@ -7,7 +7,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/go-leo/gouache"
+	"github.com/soyacen/gouache"
 )
 
 // mockCache is a simple in-memory cache implementation for testing purposes.

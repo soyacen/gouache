@@ -4,7 +4,7 @@ import (
 	"context"
 	"testing"
 
-	"github.com/go-leo/gouache"
+	"github.com/soyacen/gouache"
 	lru "github.com/hashicorp/golang-lru"
 )
 

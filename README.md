@@ -21,7 +21,7 @@ Gouache 是一个 Go 语言缓存库，实现了一致性缓存方案：延迟�
 ## 安装
 
 ```bash
-go get github.com/go-leo/gouache
+go get github.com/soyacen/gouache
 ```
 
 ## 核心接口
@@ -51,7 +51,7 @@ type Database interface {
 ### 基础使用
 
 ```go
-import "github.com/go-leo/gouache/sample"
+import "github.com/soyacen/gouache/sample"
 
 // 创建简单内存缓存
 cache := &sample.Cache{}
@@ -79,7 +79,7 @@ err = cache.Delete(context.Background(), "key")
 ### 延迟双删缓存
 
 ```go
-import "github.com/go-leo/gouache/ddd"
+import "github.com/soyacen/gouache/ddd"
 
 // 使用延迟双删模式保证缓存与数据库一致性
 cache := ddd.New(
@@ -93,7 +93,7 @@ cache := ddd.New(
 
 ```go
 import (
-    "github.com/go-leo/gouache/redis"
+    "github.com/soyacen/gouache/redis"
     "github.com/redis/go-redis/v9"
 )
 
@@ -112,7 +112,7 @@ err := cache.Set(context.Background(), "key", "value")
 ### LRU 缓存
 
 ```go
-import "github.com/go-leo/gouache/lru"
+import "github.com/soyacen/gouache/lru"
 
 lruCache, _ := lrucache.New(1000) // 最大容量1000
 cache := &lru.Cache{
@@ -126,7 +126,7 @@ err := cache.Set(context.Background(), "key", "value")
 
 ```go
 import (
-    "github.com/go-leo/gouache/fc"
+    "github.com/soyacen/gouache/fc"
     "github.com/coocood/freecache"
 )
 
@@ -141,7 +141,7 @@ err := cache.Set(context.Background(), "key", []byte("value"))
 ### 组合使用 - 防击穿缓存
 
 ```go
-import "github.com/go-leo/gouache/sf"
+import "github.com/soyacen/gouache/sf"
 
 // 使用 singleflight 包装缓存防止击穿
 cache := &sf.Cache{

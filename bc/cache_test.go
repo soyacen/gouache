@@ -8,7 +8,7 @@ import (
 	"time"
 
 	"github.com/allegro/bigcache/v3"
-	"github.com/go-leo/gouache"
+	"github.com/soyacen/gouache"
 )
 
 // TestNewCache tests the creation of a new Cache instance
