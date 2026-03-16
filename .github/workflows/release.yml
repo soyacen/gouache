@@ -1,0 +1,100 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to update to (e.g., v1.2.3)'
+        required: true
+
+jobs:
+  update-version:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write  # 需要写入权限来直接提交更改
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: main  # 总是检出 main 分支
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.25.6'
+
+      - name: Validate and use input version
+        id: get_version
+        run: |
+          VERSION=${{ github.event.inputs.version }}
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          echo "Using input version: $VERSION"
+
+          # 验证版本格式
+          if ! [[ "$VERSION" =~ ^v[0-9]+\.[0-9]+\.[0-9]+ ]]; then
+            echo "Error: Version does not match pattern vX.Y.Z"
+            exit 1
+          fi
+
+      - name: Update version in source code
+        run: |
+          sed -i "s|github.com/soyacen/gouache v[0-9]\+\.[0-9]\+\.[0-9]\+|github.com/soyacen/gouache $VERSION|g" bc/go.mod
+          echo "Updated version in bc/go.mod to $VERSION"
+
+          sed -i "s|github.com/soyacen/gouache v[0-9]\+\.[0-9]\+\.[0-9]\+|github.com/soyacen/gouache $VERSION|g" fc/go.mod
+          echo "Updated version in fc/go.mod to $VERSION"
+
+          sed -i "s|github.com/soyacen/gouache v[0-9]\+\.[0-9]\+\.[0-9]\+|github.com/soyacen/gouache $VERSION|g" gc/go.mod
+          echo "Updated version in gc/go.mod to $VERSION"
+
+          sed -i "s|github.com/soyacen/gouache v[0-9]\+\.[0-9]\+\.[0-9]\+|github.com/soyacen/gouache $VERSION|g" lru/go.mod
+          echo "Updated version in lru/go.mod to $VERSION"
+
+          sed -i "s|github.com/soyacen/gouache v[0-9]\+\.[0-9]\+\.[0-9]\+|github.com/soyacen/gouache $VERSION|g" redis/go.mod
+          echo "Updated version in redis/go.mod to $VERSION"
+      - name: Commit and push changes directly
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add bc/go.mod
+          git add fc/go.mod
+          git add gc/go.mod
+          git add lru/go.mod
+          git add redis/go.mod
+          git commit -m "chore: update version to $VERSION"
+          git push
+
+      - name: Create and push tag
+        run: |
+          git tag bc/$VERSION
+          git push origin bc/$VERSION
+          git tag fc/$VERSION
+          git push origin fc/$VERSION
+          git tag gc/$VERSION
+          git push origin gc/$VERSION
+          git tag lru/$VERSION
+          git push origin lru/$VERSION
+          git tag redis/$VERSION
+          git push origin redis/$VERSION
+          git tag $VERSION
+          git push origin $VERSION
+          echo "Tag ${{ env.VERSION }} created and pushed successfully"
+
+      - name: Create GitHub Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ env.VERSION }}
+          release_name: Release ${{ env.VERSION }}
+          draft: false
+          prerelease: false
+
+      - name: Output completion message
+        run: |
+          echo "Version updated to $VERSION"
+          echo "Tag $VERSION has been created and pushed automatically"
+          echo "Release workflow will run automatically after pushing the tag."
