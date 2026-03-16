@@ -4,7 +4,7 @@ go 1.20
 
 require (
 	github.com/coocood/freecache v1.2.4
-	github.com/soyacen/gouache v0.0.1
+	github.com/soyacen/gouache v0.0.2
 )
 
 require github.com/cespare/xxhash/v2 v2.1.2 // indirect
